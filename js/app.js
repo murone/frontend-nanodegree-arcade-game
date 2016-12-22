@@ -24,15 +24,20 @@ Enemy.prototype.update = function(dt) {
         this.speed = Math.random() + .75;
         return;
     }
-
-    var eneRect = {x: this.x, y: this.y, w: 101, h: 83};
-    var playerRect = {x: player.x, y: player.y, w: 101, h: 83};
+    var eneRect = {x: this.x, y: this.y, width: 70, height: 50};
+    var playerRect = {x: player.x, y: player.y, width: 70, height: 50};
     if (eneRect.x < playerRect.x + playerRect.width &&
-   eneRect.x + eneRect.width > playerRect.x &&
-   eneRect.y < playerRect.y + playerRect.height &&
-   eneRect.height + eneRect.y > playerRect.y) {
-        player.reset();
+    eneRect.x + eneRect.width > playerRect.x &&
+    eneRect.y < playerRect.y + playerRect.height &&
+    eneRect.height + eneRect.y > playerRect.y) {
+        player.reset("You died! Try again.");
     }
+    // if (eneRect.x < playerRect.x + playerRect.width &&
+    // eneRect.x + eneRect.width > playerRect.x &&
+    // eneRect.y < playerRect.y + playerRect.height &&
+    // eneRect.height + eneRect.y > playerRect.y) {
+    //     player.reset();
+    // }
 
     this.x += dt * this.speed * this.difficulty * 101;
 };
@@ -60,15 +65,24 @@ var Player = function() {
     //variables for position and appearance
     this.x = this.startX;
     this.y = this.startY;
+
+    this.column = this.x / 101 + 1;
+    this.row = (this.y + 11) / 83 + 1;
     this.sprite = 'images/char-boy.png';
 };
 
 Player.prototype.update = function(x,y) {
     if(x) this.x += x;
     if(y) this.y += y;
+
+    this.column = this.x / 101 + 1;
+    this.row = (this.y + 11) / 83 + 1;
+
+    if (this.row == 1) {setTimeout(this.reset("You won!"), 5000)};
 }
 
-Player.prototype.reset = function() {
+Player.prototype.reset = function(msg) {
+    window.alert(msg);
     this.x = player.startX;
     this.y = player.startY;
 }    
