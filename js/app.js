@@ -84,7 +84,14 @@ Player.prototype.update = function(x,y) {
 	this.column = this.x / 101 + 1;
 	this.row = (this.y + 11) / 83 + 1;
 
-	if (this.row == 1) {setTimeout(this.reset("You won!"), 5000)};
+	if (this.row == 1) {
+		wins += 1;
+		if (wins > 1){
+			setTimeout(this.reset("You won! You have " + wins + " wins this session."), 5000)
+		} else {
+			setTimeout(this.reset("You won! You have " + wins + " win this session."), 5000)
+		}
+	};
 }
 
 // Reset the player to the bottom middle block. Called with an argument to be displayed in a popup upon reset. 
@@ -162,7 +169,7 @@ Player.prototype.handleInput = function(key) {
 
 var allEnemies = [new Enemy(),new Enemy(), new Enemy()];
 var player = new Player();
-
+var wins = 0;
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
