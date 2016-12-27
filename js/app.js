@@ -19,7 +19,7 @@ Enemy.prototype.initPos = function() {
 	this.x = -101; // Set the enemy off screen left
 	this.y = 60 + Math.floor(Math.random() * 3) * 83; // Pick a random lane
 	this.speed = Math.random() + .75; // Set a random speed
-}
+};
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
@@ -71,6 +71,8 @@ var Player = function() {
 	this.x = this.startX;
 	this.y = this.startY;
 
+
+	this.wins = 0;
 	this.column = this.x / this.mx + 1;
 	this.row = (this.y + 11) / this.my + 1;
 	this.sprite = 'images/char-boy.png';
@@ -85,26 +87,26 @@ Player.prototype.update = function(x,y) {
 	this.row = (this.y + 11) / 83 + 1;
 
 	if (this.row == 1) {
-		wins += 1;
-		if (wins > 1){
-			setTimeout(this.reset("You won! You have " + wins + " wins this session."), 5000)
+		this.wins += 1;
+		if (this.wins > 1){
+			setTimeout(this.reset("You won! You have " + this.wins + " wins this session."), 5000)
 		} else {
-			setTimeout(this.reset("You won! You have " + wins + " win this session."), 5000)
+			setTimeout(this.reset("You won! You have " + this.wins + " win this session."), 5000)
 		}
-	};
-}
+	}
+};
 
 // Reset the player to the bottom middle block. Called with an argument to be displayed in a popup upon reset. 
 Player.prototype.reset = function(msg) {
 	window.alert(msg);
-	this.x = player.startX;
-	this.y = player.startY;
-}    
+	this.x = this.startX;
+	this.y = this.startY;
+};
 
 // Draw the player on the screen, required method for game
 Player.prototype.render = function() {
 	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+};
 
 
 // Calculate the correct movement of the player based on input and pass that value to the update function. Leverages constants defined in the player class to avoid hardcoding values into this function
@@ -159,7 +161,7 @@ Player.prototype.handleInput = function(key) {
 		default:
 			break;
 	}
-}
+};
 
 
 // Now instantiate your objects.
@@ -169,7 +171,6 @@ Player.prototype.handleInput = function(key) {
 
 var allEnemies = [new Enemy(),new Enemy(), new Enemy()];
 var player = new Player();
-var wins = 0;
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
